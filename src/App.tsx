@@ -20,9 +20,10 @@ function SectionTitle({ index, title, text, icon }: { index: string; title: stri
 }
 
 function MarketSection() {
-  const { snapshot, error, loading, refresh } = useData<Market>('market');
+  const { snapshot, error, loading, refresh: refreshData } = useData<Market>('market');
   const [sort, setSort] = useState('liquidity');
   const [selected, setSelected] = useState<string[]>([]);
+  const refresh = () => { setSelected([]); refreshData(); };
   const pairs = [...(snapshot?.data.pairs ?? [])].sort((a, b) => (sort === 'volume' ? b.volume24h ?? -1 : b.liquidityUsd ?? -1) - (sort === 'volume' ? a.volume24h ?? -1 : a.liquidityUsd ?? -1));
   const deepest = [...pairs].sort((a, b) => (b.liquidityUsd ?? -1) - (a.liquidityUsd ?? -1))[0];
   const compared = pairs.filter(pair => selected.includes(pair.id));
