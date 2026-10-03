@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 112" fill="none">
+  <title>VOXEN IMD</title>
+  <g stroke="#252241" stroke-opacity=".08" stroke-linejoin="round">
+    <path d="m26 9 17 9-17 9-17-9Z" fill="#b9a0ff"/><path d="m9 18 17 9v19L9 37Z" fill="#6d4aff"/><path d="m26 27 17-9v19l-17 9Z" fill="#4931a8"/>
+    <path d="m86 9 17 9-17 9-17-9Z" fill="#b9a0ff"/><path d="m69 18 17 9v19l-17-9Z" fill="#6d4aff"/><path d="m86 27 17-9v19l-17 9Z" fill="#4931a8"/>
+    <path d="m41 36 17 9-17 9-17-9Z" fill="#b9a0ff"/><path d="m24 45 17 9v19l-17-9Z" fill="#6d4aff"/><path d="m41 54 17-9v19l-17 9Z" fill="#4931a8"/>
+    <path d="m71 36 17 9-17 9-17-9Z" fill="#b9a0ff"/><path d="m54 45 17 9v19l-17-9Z" fill="#6d4aff"/><path d="m71 54 17-9v19l-17 9Z" fill="#4931a8"/>
+    <path d="m56 64 17 9-17 9-17-9Z" fill="#e5ff92"/><path d="m39 73 17 9v20l-17-9Z" fill="#d5f45a"/><path d="m56 82 17-9v20l-17 9Z" fill="#91b933"/>
+  </g>
+</svg>
