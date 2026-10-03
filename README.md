@@ -73,8 +73,10 @@ vercel.json       Vercel build, data function and response headers
 
 ## Publication
 
-The intended GitHub repository is [x80zAI/voxen-imd](https://github.com/x80zAI/voxen-imd), and the intended Vercel address is [voxen-imd.vercel.app](https://voxen-imd.vercel.app/). **Publication is pending verification.** These are planned destinations, not a confirmation that either publication is live.
+The source is published at [x80zAI/voxen-imd](https://github.com/x80zAI/voxen-imd), and the production website is [voxen-imd.vercel.app](https://voxen-imd.vercel.app/). Both were verified on 4 October 2026. The GitHub copy matched the local source file by file, and the deployed HTML, JavaScript, styles and original identity assets matched the local production build.
 
 Vercel is configured for `npm ci`, `npm run build`, the `dist` output and the Node.js data function. The X account and a custom domain will be connected when David supplies them.
+
+See [delivery verification](docs/VERIFICATION.md) for the checks completed against the working website.
 
 VOXEN IMD is independent of the official IMD team, Dexscreener and Uniswap. Source listings and recorded work are not endorsements.
