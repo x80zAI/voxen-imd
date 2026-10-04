@@ -1,17 +1,23 @@
 # VOXEN IMD
 
-An independent, English-language workspace for real IMD market data, agent seat records, published work and file integrity checks. Built for David with an original voxel landscape, violet and lime accents, a warm ivory background and a separate cube-based identity.
+An independent, English-language workspace for real IMD market data, observation reports, research-job requests, agent seat records, published work and local file integrity. Built for David with an original voxel landscape, violet and lime accents, a warm ivory background and a separate cube-based identity.
 
 The four landmarks open the working tools on the page. The landscape is decorative artwork; its buildings and motion do not represent live agent positions or activity.
 
 ## Four working utilities
 
 - **Markets:** read Ethereum pools whose base token is the exact official IMD address. Order them by reported liquidity or 24-hour volume, compare up to two pools and export the current reading as CSV. The headline price belongs to the pool with the most reported liquidity; it is not an executable trading quote.
-- **Swarm seats:** read network presence and look up Identity.MD seat numbers from 0 to 1999. Optionally compare two seats by owner, presence and recorded work counts. Open their original records for further inspection. These figures describe the existing network; VOXEN does not run or hire those agents.
+- **Swarm seats:** read network presence and look up Identity.MD seat numbers from 0 to 1999. Optionally compare two seats by owner, presence and recorded work counts. Open their original records for further inspection. These figures describe the existing network; this reader is separate from the research-job request tool.
 - **Published work:** search the official publication index, filter by category, browse its pages and open the original repository, website or job record. File records can supply an expected fingerprint to the integrity tool. The public view keeps declared contract chains on Ethereum mainnet and excludes records identified as illustrative or development-only work. The source's page totals can include records excluded from this view.
 - **File integrity:** choose a file on your device and calculate its SHA-256 fingerprint. Compare it with a published fingerprint or one you paste yourself, copy the result or save a JSON record. Files up to 64 MiB are processed locally; file contents are never uploaded by this tool.
 
-There is no staking, VOXEN token, token sale or reward contract. The site does not connect wallets, request signatures, set spending permissions or send transactions. No paid agent service or additional agent-execution backend is required.
+## Agent workspace and IMD research jobs
+
+**Market Watch, Publication Watch and Network Brief** execute observation rules over real public readings and generate downloadable reports. Run one or all three, or start sixty-second checks while the page is open. Watching pauses when the page is hidden. Reports retain the source acquisition times, distinguish unavailable readings and keep a bounded history on the current device. These are automated observation tools, without a language-model provider or trading decisions.
+
+**IMD jobs** sends research briefs through the official paid-request protocol. The visitor reviews the brief and current quote, connects their Ethereum wallet and explicitly confirms any required spending permission and payment signatures. The supported action is `job.open` with the `research-report` skill and a Markdown output. Quoting and status reads do not pay for a job. A job is admitted only after the official service accepts the visitor's signed payment; completion is checked separately from submission.
+
+The official service specifies payment in the external IMD token on Ethereum mainnet. The website retrieves current terms rather than assuming a permanent price. Wallet secrets are never requested or stored. The tool does not autonomously pay, launch tokens or deploy contracts. There is no staking, VOXEN token, token sale or reward contract.
 
 ## Data and privacy
 
@@ -21,7 +27,7 @@ The market tool uses Dexscreener. Seat and publication tools use the official pu
 
 The file checker reads your chosen file in browser memory. Its saved JSON contains the filename, fingerprints, comparison result, source reference and check time, without the file contents. A matching fingerprint establishes identical bytes relative to that fingerprint; it does not establish that a file is safe to open. An expected fingerprint pasted manually is only as trustworthy as the place you obtained it from.
 
-Searches and requested seat or job IDs are sent to the site's data function and the relevant public provider. External links open the original service. There is no personal archive or cross-device storage in VOXEN. Closing or refreshing the page resets your current selections; download any records you want to keep.
+Searches and requested seat or job IDs are sent to the site's data function and the relevant public provider. External links open the original service. Observation reports and request recovery information stay on the current device; there is no cross-device archive. Download records you want to keep. Other utility selections reset on refresh.
 
 See [data sources and limits](docs/SOURCES.md) for the exact routes, validation and source references.
 
@@ -60,6 +66,9 @@ Complete these checks with actual upstream readings and desktop/mobile browser c
 
 ```text
 api/data.mjs       Fixed-source public reads, validation and bounded caching
+api/requests.mjs   Fixed research-job gateway, without autonomous payments
+src/AgentsSection.tsx Observation reports, watch controls and local history
+src/IMDJobs.tsx    Visitor-controlled research requests and recovery
 src/App.tsx        The four tools and page navigation
 src/lib.ts         Request state, formatting, downloads and local SHA-256
 src/VoxelWorld.tsx Original interactive SVG landscape
@@ -77,6 +86,6 @@ The source is published at [x80zAI/voxen-imd](https://github.com/x80zAI/voxen-im
 
 Vercel is configured for `npm ci`, `npm run build`, the `dist` output and the Node.js data function. The X account and a custom domain will be connected when David supplies them.
 
-See [delivery verification](docs/VERIFICATION.md) for the checks completed against the working website.
+See [initial delivery verification](docs/VERIFICATION.md) for the original four tools and [agent workflow verification](docs/AGENT-VERIFICATION.md) for the observation and research additions.
 
 VOXEN IMD is independent of the official IMD team, Dexscreener and Uniswap. Source listings and recorded work are not endorsements.

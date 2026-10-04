@@ -4,7 +4,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "installCommand": "npm ci",
-  "functions": { "api/data.mjs": { "maxDuration": 15 } },
+  "functions": { "api/data.mjs": { "maxDuration": 15 }, "api/requests.mjs": { "maxDuration": 15 } },
   "headers": [{
     "source": "/(.*)",
     "headers": [

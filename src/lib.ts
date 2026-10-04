@@ -11,7 +11,7 @@ export type Publication = { id: string; jobId: string | null; objective: string;
 export type Publications = { count: number; totalPages: number; page: number; items: Publication[] };
 export type Job = { id: string; state: string | null; complete: boolean | null; files: Artifact[] };
 
-export function publishedWorkAllowed(item: Publication): boolean {
+export function publishedWorkAllowed(item: Pick<Publication, 'objective' | 'chains'>): boolean {
   return item.chains.every(chain => chain === 1) && !/\b(?:demo|demonstration|testnet|prototype|sandbox|simulation|mock)\b/i.test(item.objective);
 }
 
