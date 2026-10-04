@@ -238,7 +238,7 @@ export function createDataReader({ fetchImpl = globalThis.fetch, now = Date.now,
       timer = setTimeout(() => { controller.abort(); reject(unavailable()); }, timeoutMs);
     });
     const operation = (async () => {
-      const workersSource = `${API_ORIGIN}/workers?fields=seat%2Cworking%2Cskills%2ClastHeartbeatAt`;
+      const workersSource = `${API_ORIGIN}/workers`;
       const [payload, workerPayload] = await Promise.all([
         readJson(fetchImpl, request.source, controller.signal, maxBytes),
         request.kind === 'swarm' ? readJson(fetchImpl, workersSource, controller.signal, maxBytes) : null,
