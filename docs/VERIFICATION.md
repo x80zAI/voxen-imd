@@ -1,4 +1,6 @@
-# Delivery verification
+# Initial delivery verification
+
+This record concerns the initial four information utilities before the later observation-agent and research-request additions. New capabilities require their own verification record.
 
 Checked on 4 October 2026, Europe/Madrid.
 

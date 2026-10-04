@@ -1,6 +1,6 @@
 # Data sources and reading limits
 
-VOXEN IMD reads existing public records. Its own utilities run against those records or against a file selected on the visitor's device. The application does not generate network activity, prices, earnings or agent answers.
+VOXEN IMD reads public records, generates observation reports, verifies locally selected files and provides visitor-controlled research-job requests. Observation reports are rule-based computations over acquired data. Responses attributed to IMD jobs must come from the official service.
 
 ## Official token identity
 
@@ -73,11 +73,19 @@ During source research, the real artifact for job `9ba0e6d1-f90f-46fe-b0a9-2851b
 
 ## Application route, caching and failures
 
-The site's GET-only `/api/data` route selects a fixed upstream based on `kind=market`, `swarm`, `seat`, `publications` or `job`. Visitor input never chooses an upstream host or HTTP method. There are no wallet credentials, paid requests or agent-execution endpoints.
+The site's GET-only `/api/data` route selects a fixed upstream based on `kind=market`, `swarm`, `seat`, `publications` or `job`. Visitor input never chooses an upstream host or HTTP method. This reading route is separate from `/api/requests`, which supports the official research-job request protocol.
 
 Upstream reads have a 9-second timeout and a 2 MiB response-size bound. Redirects, non-JSON responses, unsuccessful HTTP responses and invalid payloads are rejected. At most 96 successful cache entries are kept per running function instance for 30 seconds. Identical concurrent reads share one request; different queries have separate entries. Successful responses permit 20 seconds of Vercel shared caching, and error responses are not cached by the application.
 
-`fetchedAt` records when VOXEN obtained a successful source response. It does not prove when a provider last indexed the underlying market or network. Cached responses keep that timestamp. The page reads on load and on the visitor's lookup, search or refresh; it does not promise continuous monitoring while idle.
+`fetchedAt` records when VOXEN obtained a successful source response. It does not prove when a provider last indexed the underlying market or network. Cached responses keep that timestamp. The original tools read on load and on lookup, search or refresh. The separate Agent workspace supports sixty-second observations while the page is open and visible, with execution time and acquisition time recorded separately.
+
+## Research-job requests
+
+Primary source: [IMD paid-request documentation](https://imd.fun/docs/#paid-requests) and the current `GET https://api.imd.fun/requests/capabilities` response. The gateway fixes all requests to the official host and supports only `job.open` with the `research-report` skill, five required citations and a Markdown report at `artifacts/report.md`. It excludes contract launches and repository delivery.
+
+Brief checking does not create a paid job. Quotes require a request key and a client-generated request token. Payment uses the official x402 v2 Permit2 payload plus a quote-specific approval signed by the same Ethereum wallet. The visitor reviews the amount, recipient and expiry and explicitly confirms payment. Request status and job completion are separate source outcomes. Failed or delayed responses cannot establish a completed job.
+
+Request tokens are recovery credentials for the current device; wallet secrets remain with the wallet. Orders and signed-payment attempts must retain their identifiers for retries. The gateway does not cache private request data or autonomously retry a payment. The research-job tool depends on official payment admission, available agent capacity and result delivery.
 
 HTTP 400 means invalid input, 404 means the source has no record for the requested ID, 405 rejects methods other than GET, and 503 means a required source could not be read or validated. Unknown metadata remains unavailable. Failed readings do not become invented zero values or completed work.
 
