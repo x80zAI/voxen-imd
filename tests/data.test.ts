@@ -161,7 +161,7 @@ describe('bounded reads, caching and server errors', () => {
     for (const id of ['0', '1', '2', '0']) await read(parseQuery(`/api/data?kind=seat&id=${id}`));
     expect(fetchImpl).toHaveBeenCalledTimes(4);
   });
-  it('fetches only fixed public GETs and uses both swarm sources', async () => {
+  it('fetches the documented bare worker endpoint once with the fixed public swarm GET', async () => {
     const fetchImpl = vi.fn(async (source: string | URL | Request, options?: RequestInit) => {
       expect(options).toMatchObject({ method: 'GET', redirect: 'error', headers: { Accept: 'application/json' } });
       return String(source).includes('/workers') ? json({ workers: [] }) : json({ health: {} });
@@ -169,8 +169,17 @@ describe('bounded reads, caching and server errors', () => {
     const read = createDataReader({ fetchImpl });
     await read(parseQuery('/api/data?kind=swarm'));
     expect(fetchImpl.mock.calls.map(([source]) => source)).toEqual([
-      'https://api.imd.fun/swarm', 'https://api.imd.fun/workers?fields=seat%2Cworking%2Cskills%2ClastHeartbeatAt',
+      'https://api.imd.fun/swarm', 'https://api.imd.fun/workers',
     ]);
+  });
+  it('requires a successful valid worker reading before returning the combined swarm', async () => {
+    for (const workerResponse of [json({ error: 'busy' }, 503), json({ workers: null }), json({ records: [] })]) {
+      const fetchImpl = vi.fn(async (source: string | URL | Request) => String(source) === 'https://api.imd.fun/workers'
+        ? workerResponse : json({ health: { agentsOnline: 2, workingNow: 1, acceptedLastDay: 8, seatsEnrolled: 3 } }));
+      await expect(createDataReader({ fetchImpl })(parseQuery('/api/data?kind=swarm')))
+        .rejects.toMatchObject({ status: 503, code: 'source_unavailable' });
+      expect(fetchImpl.mock.calls.map(([source]) => source)).toEqual(['https://api.imd.fun/swarm', 'https://api.imd.fun/workers']);
+    }
   });
   it('never caches source failures and preserves missing record status', async () => {
     const fetchImpl = vi.fn(async () => json({ error: 'unknown_seat' }, 404));
